@@ -110,30 +110,28 @@ def _preprocess_data(data):
 
     def split_datetime_col(df, col):
         new_df = df.copy()
-        new_df['Year'] = new_df[col].dt.year
         new_df['Month'] = new_df[col].dt.month
         new_df['Week'] = new_df[col].dt.week
         new_df['Day'] = new_df[col].dt.day
         new_df['Hour'] = new_df[col].dt.hour
         return new_df
 
+    def standadize_data(df, exclude):
+        original_columns = df.columns
+        df_copy = df.copy()
+        df_copy = df_copy.drop(exclude, axis=1)
+        std_columns = df_copy.columns
 
-def standadize_data(df, exclude):
-    original_columns = df.columns
-    df_copy = df.copy()
-    df_copy = df_copy.drop(exclude, axis=1)
-    std_columns = df_copy.columns
-    # create scaler object
-    scaler = StandardScaler()
+        scaler = StandardScaler()
 
-    df_copy_scaled = scaler.fit_transform(df_copy)
-    df_copy_scaled = pd.DataFrame(df_copy_scaled, columns=std_columns)
+        df_copy_scaled = scaler.fit_transform(df_copy)
+        df_copy_scaled = pd.DataFrame(df_copy_scaled, columns=std_columns)
 
-    for col in exclude:
-        df_copy_scaled[col] = df[col]
+        for col in exclude:
+            df_copy_scaled[col] = df[col]
 
-    df_copy_scaled = df_copy_scaled[original_columns]
-    return df_copy_scaled
+        df_copy_scaled = df_copy_scaled[original_columns]
+        return df_copy_scaled
 
     # Convert the json string to a python dictionary object
     feature_vector_dict = json.loads(data)
@@ -150,21 +148,23 @@ def standadize_data(df, exclude):
 
     # ----------- Replace this code with your own preprocessing steps --------
     # Team_1 Added this
-    #predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
+    # predict_vector = feature_vector_df[[
+    #     'Madrid_wind_speed', 'Bilbao_rain_1h', 'Valencia_wind_speed']]
     # ------------------------------------------------------------------------
 
-    clean_test_df = check_null(feature_vector_df)
-    clean_test_df = remove_features(clean_test_df, features)
-    clean_test_df = treat_outliers(clean_test_df)
-    clean_test_df['time'] = conver_time(clean_test_df, 'time')
-    clean_test_df_copy = object_converter(clean_test_df)
-    clean_test_df_copy = split_datetime_col(clean_test_df_copy, 'time')
-    predict_test_data_time = clean_test_df['time']
-    predict_test_data_time = predict_test_data_time.to_numpy()
-    clean_test_df_copy = clean_test_df_copy.drop('time', axis=1)
-    predict_vector = standadize_data(clean_test_df_copy, [])
+    # clean_test_df = check_null(feature_vector_df.iloc[:, 1:])
+    # clean_test_df = remove_features(clean_test_df, features)
+    # clean_test_df = treat_outliers(clean_test_df)
+    # clean_test_df['time'] = conver_time(clean_test_df, 'time')
+    # clean_test_df_copy = object_converter(clean_test_df)
+    # clean_test_df_copy = split_datetime_col(clean_test_df_copy, 'time')
+    # predict_test_data_time = clean_test_df['time']
+    # predict_test_data_time = predict_test_data_time.to_numpy()
+    # clean_test_df_copy = clean_test_df_copy.drop('time', axis=1)
+    # predict_vector = standadize_data(clean_test_df_copy, [])
+    print(feature_vector_df)
 
-    return predict_vector
+    return []
 
 
 def load_model(path_to_model: str):
