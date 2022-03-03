@@ -65,4 +65,4 @@ def model_prediction():
 # update your API code.
 # I change the port number to 5002 because I had an instance running on 5000
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5002, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=False)

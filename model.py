@@ -45,7 +45,7 @@ def _preprocess_data(data):
     Pandas DataFrame : <class 'pandas.core.frame.DataFrame'>
         The preprocessed data, ready to be used our model for prediction.
     """
-
+    print('******* Data Engineering in progress *********')
     features = ['time', 'Madrid_wind_speed', 'Valencia_wind_speed', 'Bilbao_wind_speed',
                 'Bilbao_wind_deg', 'Barcelona_wind_speed', 'Barcelona_wind_deg',
                 'Seville_wind_speed', 'Valencia_temp', 'Seville_temp', 'Barcelona_temp',
@@ -84,6 +84,9 @@ def _preprocess_data(data):
     clean_test_df_copy = clean_test_df_copy.drop('time', axis=1)
 
     return clean_test_df_copy
+
+
+print('******* Finished Data Engineering *********')
 
 
 def load_model(path_to_model: str):
